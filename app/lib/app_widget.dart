@@ -14,7 +14,7 @@ class AppWidget extends StatelessWidget {
     );
 
     return MaterialApp.router(
-      title: 'Barba em Dia',
+      title: 'SDI Pedidos',
       themeMode: appStore.themeMode.value,
       theme: lightTheme,
       darkTheme: darkTheme,

@@ -20,10 +20,10 @@ class AuthController implements IAuthController {
   @override
   Future<Map<String, dynamic>> signIn(SignInParams params) async {
     final Response result = await service.login(
-      params.email.value,
+      params.user.value,
       params.password.value,
     );
-
+    print(result.statusCode);
     final statusCode = result.statusCode;
 
     if (statusCode == 400) {
@@ -34,15 +34,15 @@ class AuthController implements IAuthController {
       throw const MyException(message: 'Usuário não encontrado');
     }
 
-    if (statusCode != 200) {
+    if (statusCode != 201) {
       throw const MyException(
         message: 'Erro ao tentar realizar login. Por favor tente novamente.',
       );
     }
 
-    await storage.save("access_token", result.data["access_token"]);
-    await storage.save("refresh_token", result.data["refresh_token"]);
+    await storage.save("accessToken", result.data["accessToken"]);
+    await storage.save("refreshToken", result.data["refreshToken"]);
 
-    return result.data['user'];
+    return result.data;
   }
 }

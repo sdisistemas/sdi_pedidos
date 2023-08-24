@@ -25,8 +25,10 @@ class AuthRepository implements IAuthRepository {
   Future<Result<User, IMyException>> signIn(SignInParams params) async {
     try {
       final result = await controller.signIn(params);
+      print("result: ${result}");
 
       final user = UserAdapter.fromMap(result);
+      print("user: ${user}");
 
       await storage.save("user", UserAdapter.toJson(user));
 
@@ -37,6 +39,7 @@ class AuthRepository implements IAuthRepository {
     } on IMyException catch (e) {
       return MyException(message: e.message).toFailure();
     } catch (e) {
+      print(e);
       return MyException(message: e.toString()).toFailure();
     }
   }

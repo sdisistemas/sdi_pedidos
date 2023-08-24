@@ -69,7 +69,7 @@ class _LoginScreen extends State<LoginScreen> {
     }
 
     final params = SignInParams(
-      email: user.email.value,
+      user: user.user.value,
       password: user.password.value,
     );
 
@@ -133,9 +133,9 @@ class _LoginScreen extends State<LoginScreen> {
                   label: 'Usuario',
                   hintText: 'Digite seu usuario',
                   // validator: (v) =>
-                  //     user.email.validate('Email').exceptionOrNull(),
-                  onChanged: user.setEmail,
-                  value: user.email.value,
+                  //     user.user.validate('user').exceptionOrNull(),
+                  onChanged: user.setUser,
+                  value: user.user.value,
                   inputFormaters: [LowerCaseTextFormatter()],
                 ),
                 const SizedBox(height: 10),

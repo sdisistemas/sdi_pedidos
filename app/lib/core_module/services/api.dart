@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:dio/io.dart';
 import 'package:sdi_pedidos/core_module/constants/constants.dart';
 import 'package:sdi_pedidos/core_module/services/api_interceptor.dart';
 import 'package:sdi_pedidos/interfaces/services/api_interface.dart';
@@ -11,6 +14,13 @@ class Api implements IApiService {
   Api(this.storage) : api = Dio() {
     api.options.baseUrl = baseUrl;
     api.options.contentType = Headers.formUrlEncodedContentType;
+
+    (api.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (HttpClient client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return client;
+    };
 
     final interceptor = ApiInterceptor(storage, api);
     api.interceptors.add(interceptor);
