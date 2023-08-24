@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/io.dart';
-import 'package:sdi_pedidos/core_module/constants/constants.dart';
 import 'package:sdi_pedidos/core_module/services/api_interceptor.dart';
 import 'package:sdi_pedidos/interfaces/services/api_interface.dart';
 import 'package:sdi_pedidos/interfaces/services/storage_interface.dart';
@@ -12,6 +11,23 @@ class Api implements IApiService {
   IStorage storage;
 
   Api(this.storage) : api = Dio() {
+    _setupDio();
+    // api.options.baseUrl = baseUrl;
+  }
+
+  void _setupDio() async {
+    final selectedIP = await storage.read('selected_ip');
+    final internalIP = await storage.read('internal_ip');
+    final externalIP = await storage.read('external_ip');
+    final port = await storage.read('port');
+
+    String baseUrl;
+    if (selectedIP == "internal") {
+      baseUrl = 'https://${internalIP ?? ''}:${port ?? '3000'}';
+    } else {
+      baseUrl = 'https://${externalIP ?? ''}:${port ?? '3000'}';
+    }
+
     api.options.baseUrl = baseUrl;
     api.options.contentType = Headers.formUrlEncodedContentType;
 
@@ -25,12 +41,6 @@ class Api implements IApiService {
     final interceptor = ApiInterceptor(storage, api);
     api.interceptors.add(interceptor);
   }
-
-  // final interceptor = ApiInterceptor();
-
-  // final api = new Dio()
-  //   ..options.baseUrl = Endpoints().BASE_URL
-  //   ..options.contentType = Headers.formUrlEncodedContentType;
 
   @override
   Future<Response> get(String endpoint) async {

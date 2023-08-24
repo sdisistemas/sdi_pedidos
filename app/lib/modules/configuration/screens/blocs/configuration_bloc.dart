@@ -1,14 +1,8 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, unused_import
-import 'dart:convert';
-
 import 'package:sdi_pedidos/interfaces/services/storage_interface.dart';
 import 'package:sdi_pedidos/modules/auth/services/auth_service_interface.dart';
 import 'package:sdi_pedidos/modules/configuration/screens/blocs/configuration_events.dart';
 import 'package:sdi_pedidos/modules/configuration/screens/blocs/configuration_states.dart';
-import 'package:sdi_pedidos/modules/splash/screens/blocs/splash_states.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 
 class ConfigurationBloc extends Bloc<ConfigurationEvents, ConfigurationStates> {
   final IStorage storage;
@@ -18,36 +12,38 @@ class ConfigurationBloc extends Bloc<ConfigurationEvents, ConfigurationStates> {
     required this.storage,
     required this.service,
   }) : super(InitialConfigurationState()) {
-    on<CheckTokenEvent>(_checkToken);
+    on<LoadConfigurationEvent>(_loadConfiguration);
+    on<SaveConfigurationEvent>(_saveConfiguration);
   }
 
-  Future _checkToken(CheckTokenEvent event, emit) async {
-    final accessToken = await storage.read('access_token');
-    final refreshToken = await storage.read('refresh_token');
-
-    if (accessToken != null && !isTokenExpired(accessToken)) {
-      emit(SuccessCheckConfigurationState());
-    } else if (accessToken != null &&
-        isTokenExpired(accessToken) &&
-        refreshToken != null &&
-        !isTokenExpired(refreshToken)) {
-      Response response = await service.refreshToken(refreshToken);
-      if (response.statusCode == 200 &&
-          response.data["access_token"] is String) {
-        await storage.save("access_token", response.data["access_token"]);
-        await storage.save("refresh_token", response.data["refresh_token"]);
-        await storage.save("user", jsonEncode(response.data["user"]));
-
-        emit(SuccessCheckConfigurationState());
-      }
-    } else {
-      emit(ErrorConfigurationState(message: 'Sua sessão expirou.'));
+  Future<void> _loadConfiguration(
+      LoadConfigurationEvent event, Emitter<ConfigurationStates> emit) async {
+    try {
+      final internalIP = await storage.read('internal_ip') ?? "";
+      final externalIP = await storage.read('external_ip') ?? "";
+      final port = await storage.read('port') ?? "";
+      final selectedIP = await storage.read('selected_ip') ??
+          "internal"; // default to internal
+      emit(LoadedConfigurationState(
+          internalIP: internalIP,
+          externalIP: externalIP,
+          port: port,
+          selectedIP: selectedIP));
+    } catch (error) {
+      emit(ErrorConfigurationState(message: error.toString()));
     }
   }
 
-  bool isTokenExpired(String _token) {
-    DateTime? expiryDate = Jwt.getExpiryDate(_token);
-    bool isExpired = expiryDate!.compareTo(DateTime.now()) < 0;
-    return isExpired;
+  Future<void> _saveConfiguration(
+      SaveConfigurationEvent event, Emitter<ConfigurationStates> emit) async {
+    try {
+      await storage.save('internal_ip', event.internalIP);
+      await storage.save('external_ip', event.externalIP);
+      await storage.save('port', event.port);
+      await storage.save('selected_ip', event.selectedIP); // Save the IP choice
+      emit(SuccessSaveConfigurationState());
+    } catch (error) {
+      emit(ErrorConfigurationState(message: error.toString()));
+    }
   }
 }

@@ -57,8 +57,8 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   Widget returnLabelButton(HomeStates state) {
-    if (state is LoadingHomeState)
-      return Center(
+    if (state is LoadingHomeState) {
+      return const Center(
         child: SizedBox(
           width: 25,
           height: 25,
@@ -67,11 +67,13 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         ),
       );
+    }
 
-    if (state is SuccessLogoutState)
-      return Center(
+    if (state is SuccessLogoutState) {
+      return const Center(
         child: Icon(Icons.done_rounded),
       );
+    }
 
     return const Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,8 +93,8 @@ class _MenuScreenState extends State<MenuScreen> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Menu"),
-        SizedBox(height: 10),
+        const Text("Menu"),
+        const SizedBox(height: 10),
         BlocBuilder<HomeBloc, HomeStates>(
           bloc: widget.homeBloc,
           builder: (context, state) {
@@ -103,10 +105,10 @@ class _MenuScreenState extends State<MenuScreen> {
             );
           },
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         TextButton(
           onPressed: ThemeModeController.appStore.changeThemeMode,
-          child: Text('Trocar Tema'),
+          child: const Text('Trocar Tema'),
         ),
       ],
     );

@@ -116,9 +116,7 @@ class _LoginScreen extends State<LoginScreen> {
           leading: IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
-              // Navegue para a tela de configurações
-              // Substitua '/configuracoes' pelo caminho da tela de configurações
-              Modular.to.pushNamed('/configuration');
+              Modular.to.pushNamed('/configuration/');
             },
           ),
         ),
