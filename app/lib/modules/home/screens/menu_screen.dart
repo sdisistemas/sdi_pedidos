@@ -56,6 +56,11 @@ class _MenuScreenState extends State<MenuScreen> {
     widget.homeBloc.add(LogoutHomeEvent());
   }
 
+  void _handleUpdateData() {
+    print('Atualizar dados...');
+    // Aqui você pode implementar a lógica de atualização de dados ou chamar uma função do bloc, se necessário
+  }
+
   Widget returnLabelButton(HomeStates state) {
     if (state is LoadingHomeState) {
       return const Center(
@@ -109,6 +114,12 @@ class _MenuScreenState extends State<MenuScreen> {
         TextButton(
           onPressed: ThemeModeController.appStore.changeThemeMode,
           child: const Text('Trocar Tema'),
+        ),
+        const SizedBox(height: 10), // Adicione um espaço entre os botões
+        TextButton(
+          onPressed:
+              _handleUpdateData, // Função que será chamada ao clicar no botão
+          child: const Text('Atualizar Dados'),
         ),
       ],
     );

@@ -11,6 +11,7 @@ class ConfigurationModule extends Module {
           (i) => ConfigurationBloc(
             storage: i(),
             service: i(),
+            api: i(),
           ),
         )
       ];

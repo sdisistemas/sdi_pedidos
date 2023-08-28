@@ -11,11 +11,11 @@ class Api implements IApiService {
   IStorage storage;
 
   Api(this.storage) : api = Dio() {
-    _setupDio();
+    setupDio();
     // api.options.baseUrl = baseUrl;
   }
 
-  void _setupDio() async {
+  void setupDio() async {
     final selectedIP = await storage.read('selected_ip');
     final internalIP = await storage.read('internal_ip');
     final externalIP = await storage.read('external_ip');

@@ -47,6 +47,7 @@ dependencies:
   google_fonts: ^4.0.4
   realm: ^1.0.3
   intl: ^0.18.1
+  sqflite: ^2.3.0
 
 dev_dependencies:
   flutter_test:

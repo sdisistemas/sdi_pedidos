@@ -55,13 +55,13 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
       }
 
       if (state is LoadedConfigurationState) {
-        _internalIPController.text = state.internalIP;
-        _externalIPController.text = state.externalIP;
-        _initialPort = state.port;
-        _selectedIP = state.selectedIP;
-        _initialInternalIP = state.internalIP;
-        _initialExternalIP = state.externalIP;
-        _initialSelectedIP = state.selectedIP;
+        _internalIPController.text = state.internalIP ?? '';
+        _externalIPController.text = state.externalIP ?? '';
+        _portController.text = state.port ?? '';
+        _selectedIP = state.selectedIP ?? 'internal';
+        _initialInternalIP = state.internalIP ?? '';
+        _initialExternalIP = state.externalIP ?? '';
+        _initialPort = (state.port ?? '').trim();
       }
     });
   }
@@ -95,7 +95,7 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
             const SizedBox(height: 16.0),
             TextField(
               controller: _portController,
-              decoration: InputDecoration(labelText: 'Porta de Acesso'),
+              decoration: const InputDecoration(labelText: 'Porta de Acesso'),
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 16.0),
@@ -149,7 +149,6 @@ class _ConfigurationScreenState extends State<ConfigurationScreen> {
       return;
     }
 
-    // Verifique se há modificações nos campos
     if (internalIP == _initialInternalIP &&
         externalIP == _initialExternalIP &&
         _selectedIP == _initialSelectedIP &&
