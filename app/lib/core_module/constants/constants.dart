@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 // const baseUrl = String.fromEnvironment('BASE_URL');
 const baseUrl = "https://10.1.1.187:3000/";
 
-final startEndPoint = '';
+const startEndPoint = '';
 
-final loginAdminEndpoint = "/auth/login";
-final registerAdminEndpoint = "/auth/register";
-final profileEndpoint = "/auth/profile";
-final refreshTokenEndpoint = "/auth/refresh";
-final bookmarkEndpoint = "$startEndPoint/bookmark";
-final companyEndpoint = "$startEndPoint/company";
+const loginAdminEndpoint = "/auth/login";
+const registerAdminEndpoint = "/auth/register";
+const profileEndpoint = "/auth/profile";
+const refreshTokenEndpoint = "/auth/refresh";
+
+const getAllclientsEndpoint = "/allClients";
+
+const bookmarkEndpoint = "$startEndPoint/bookmark";
+const companyEndpoint = "$startEndPoint/company";
 
 const backgroundBlack = Color(0xFF202123);
 
