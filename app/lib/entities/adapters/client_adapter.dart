@@ -42,6 +42,10 @@ class ClientAdapter {
     return clients;
   }
 
+  static List<Client> fromMapList(List<Map<String, dynamic>> mapList) {
+    return mapList.map((map) => fromMap(map)).toList();
+  }
+
   static Client empty() {
     return Client(
         codCliente: 0,

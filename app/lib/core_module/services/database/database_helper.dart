@@ -3,8 +3,8 @@ import 'package:sdi_pedidos/core_module/services/database/models/client.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
-  static final _databaseName = "sdiPedidos.db";
-  static final _databaseVersion = 1;
+  static const _databaseName = "sdiPedidos.db";
+  static const _databaseVersion = 1;
 
   // torna esta classe singleton
   DatabaseHelper._privateConstructor();

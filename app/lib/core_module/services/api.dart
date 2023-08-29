@@ -43,11 +43,15 @@ class Api implements IApiService {
   }
 
   @override
-  Future<Response> get(String endpoint) async {
+  Future<Response> get(String endpoint,
+      {Map<String, dynamic>? queryParameters}) async {
     final token = await storage.read("access_token");
 
-    return await api.get(endpoint,
-        options: Options(headers: {"Authorization": "Bearer $token"}));
+    return await api.get(
+      endpoint,
+      queryParameters: queryParameters, // Adicionado aqui
+      options: Options(headers: {"Authorization": "Bearer $token"}),
+    );
   }
 
   @override
