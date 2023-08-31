@@ -2,9 +2,11 @@
 import 'dart:async';
 
 import 'package:sdi_pedidos/core_module/services/themeMode/theme_mode_controller.dart';
+import 'package:sdi_pedidos/interfaces/services/storage_interface.dart';
 import 'package:sdi_pedidos/modules/home/screens/blocs/home_bloc.dart';
 import 'package:sdi_pedidos/modules/home/screens/blocs/home_events.dart';
 import 'package:sdi_pedidos/modules/home/screens/blocs/home_states.dart';
+import 'package:sdi_pedidos/modules/sync_data/repositories/sync_repository.dart';
 import 'package:sdi_pedidos/shared/components/my_elevated_button_widget.dart';
 import 'package:sdi_pedidos/shared/components/my_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class MenuScreen extends StatefulWidget {
   final HomeBloc homeBloc;
 
-  MenuScreen({
+  const MenuScreen({
     Key? key,
     required this.homeBloc,
   }) : super(key: key);
@@ -29,7 +31,9 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     super.initState();
-
+    HomeBloc homeBloc = HomeBloc(
+      storage: Modular.get<IStorage>(),
+    );
     sub = widget.homeBloc.stream.listen((state) {
       if (state is SuccessLogoutState) {
         Modular.to.navigate('/auth/');
@@ -116,10 +120,12 @@ class _MenuScreenState extends State<MenuScreen> {
           child: const Text('Trocar Tema'),
         ),
         const SizedBox(height: 10), // Adicione um espaço entre os botões
-        TextButton(
-          onPressed:
-              _handleUpdateData, // Função que será chamada ao clicar no botão
-          child: const Text('Atualizar Dados'),
+        OutlinedButton.icon(
+          icon: const Icon(Icons.update),
+          label: const Text("Atualizar dados"),
+          onPressed: () {
+            Modular.to.navigate('/sync_data/');
+          },
         ),
       ],
     );

@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:sdi_pedidos/entities/adapters/client_adapter.dart';
+import 'package:sdi_pedidos/entities/client.dart';
 import 'package:sdi_pedidos/modules/sync_data/domain/sync_params.dart';
 import 'package:sdi_pedidos/modules/sync_data/services/sync_service_interface.dart';
 
@@ -8,10 +10,12 @@ abstract class ISyncController {
   Future<Map<String, dynamic>> syncSingleClient(SyncSingleClientParams params);
 }
 
-class SyncController {
+class SyncController implements ISyncController {
   final ISyncService syncService;
 
-  SyncController(this.syncService);
+  SyncController({
+    required this.syncService,
+  });
 
   Future<List<Map<String, dynamic>>> syncAllClients(
       SyncAllClientsParams params) async {
@@ -19,10 +23,11 @@ class SyncController {
       final Response result =
           await syncService.syncAllClients(params.codEmpresa.value);
       print(result.statusCode);
-      final statusCode = result.statusCode;
 
-      final List<Map<String, dynamic>> clientsList = result.data;
-      print("clientsList ${clientsList}");
+      final List<dynamic> dynamicList = result.data;
+
+      final List<Map<String, dynamic>> clientsList =
+          dynamicList.cast<Map<String, dynamic>>();
 
       return clientsList;
     } catch (e) {

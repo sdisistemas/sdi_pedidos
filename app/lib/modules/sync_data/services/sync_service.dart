@@ -8,14 +8,13 @@ class SyncService implements ISyncService {
   SyncService(this.api);
 
   @override
-  Future syncAllClients(String codEmpresa) async {
+  Future syncAllClients(int codEmpresa) async {
     try {
-      // Parâmetros da consulta
-      final queryParameters = {'codEmpresa': codEmpresa};
+      // Concatenar codEmpresa ao endpoint
+      final fullEndpoint = "$getAllclientsEndpoint/$codEmpresa";
 
       // Chame o método do repositório para obter dados da API
-      final clientsFromApi = await api.get(getAllclientsEndpoint,
-          queryParameters: queryParameters);
+      final clientsFromApi = await api.get(fullEndpoint);
 
       // print("clientsFromApi: ${clientsFromApi}");
 
@@ -27,7 +26,7 @@ class SyncService implements ISyncService {
   }
 
   @override
-  Future syncSingleClient(String codCliente) async {
+  Future syncSingleClient(int codCliente) async {
     try {
       // Chame o método do repositório para obter dados da API
       // final clientFromApi =

@@ -36,18 +36,43 @@ class clientDao implements IClient {
     return await DatabaseHelper.instance.database;
   }
 
+  // @override
+  // Future create(List<Client> clients) async {
+  //   await deleteAll();
+  //   final db = await getDatabase();
+  //   final resultCreated = await db.transaction((txn) async {
+  //     final batch = txn.batch();
+  //     for (var client in clients) {
+  //       final clientMap = ClientAdapter.toMap(client);
+  //       batch.insert(_tableName, clientMap);
+  //     }
+  //     await batch.commit();
+  //   });
+  //   return resultCreated;
+  // }
   @override
-  Future create(List<Client> clients) async {
+  Future<bool> create(List<Client> clients) async {
     await deleteAll();
     final db = await getDatabase();
-    await db.transaction((txn) async {
+    bool allSuccessful = true;
+
+    final results = await db.transaction((txn) async {
       final batch = txn.batch();
       for (var client in clients) {
         final clientMap = ClientAdapter.toMap(client);
         batch.insert(_tableName, clientMap);
       }
-      await batch.commit(noResult: true);
+      return await batch.commit();
     });
+
+    for (var result in results) {
+      if (result == null || result is! int) {
+        allSuccessful = false;
+        break;
+      }
+    }
+
+    return allSuccessful;
   }
 
   @override

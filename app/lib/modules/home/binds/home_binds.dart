@@ -4,6 +4,9 @@ import 'package:modular_bloc_bind/modular_bloc_bind.dart';
 
 class HomeBinds {
   static final List<Bind> binds = [
-    BlocBind.factory<HomeBloc>((i) => HomeBloc(storage: i())),
+    BlocBind.factory<HomeBloc>((i) => HomeBloc(
+          storage: i(),
+        )),
+        
   ];
 }

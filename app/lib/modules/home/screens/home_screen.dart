@@ -12,22 +12,22 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Home"),
-            SizedBox(height: 10),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.list),
-              label: const Text("Barbearias"),
-              onPressed: () {
-                Modular.to.navigate('./company/');
-              },
-            ),
-            SizedBox(height: 10),
-            OutlinedButton.icon(
-              icon: const Icon(Icons.list),
-              label: const Text("Barbearias favoritas"),
-              onPressed: () {
-                Modular.to.navigate('./bookmark/');
-              },
-            ),
+            // SizedBox(height: 10),
+            // OutlinedButton.icon(
+            //   icon: const Icon(Icons.list),
+            //   label: const Text("Barbearias"),
+            //   onPressed: () {
+            //     Modular.to.navigate('./company/');
+            //   },
+            // ),
+            // SizedBox(height: 10),
+            // OutlinedButton.icon(
+            //   icon: const Icon(Icons.list),
+            //   label: const Text("Barbearias favoritas"),
+            //   onPressed: () {
+            //     Modular.to.navigate('./bookmark/');
+            //   },
+            // ),
           ],
         ),
       ),

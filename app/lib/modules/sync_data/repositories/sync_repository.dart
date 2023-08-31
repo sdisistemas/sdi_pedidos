@@ -8,7 +8,8 @@ import 'package:sdi_pedidos/modules/sync_data/domain/sync_params.dart';
 import 'package:sdi_pedidos/modules/sync_data/external/sync_controller.dart';
 
 abstract class ISyncRepository {
-  Future<Result<void, IMyException>> syncAllClients(SyncAllClientsParams params);
+  Future<Result<List<Client>, IMyException>> syncAllClients(
+      SyncAllClientsParams params);
   Future<Result<void, IMyException>> syncSingleClient(String codCliente);
 }
 
@@ -16,14 +17,14 @@ class SyncRepository implements ISyncRepository {
   final ISyncController controller;
   final IClient clientDao;
 
-
   SyncRepository({
     required this.controller,
     required this.clientDao,
-  })
+  });
 
   @override
-  Future<Result<void, IMyException>> syncAllClients(SyncAllClientsParams params) async {
+  Future<Result<List<Client>, IMyException>> syncAllClients(
+      SyncAllClientsParams params) async {
     try {
       final result = await controller.syncAllClients(params);
 
@@ -31,9 +32,15 @@ class SyncRepository implements ISyncRepository {
 
       final resultCreatedClientes = await clientDao.create(clientsFromApi);
 
-    return resultCreatedClientes.toSuccess();
+      if (resultCreatedClientes) {
+        return Success(clientsFromApi);
+      } else {
+        return Failure(const MyException(message: "Erro ao criar clientes")
+            .toFailure() as IMyException);
+      }
     } on DioException catch (e) {
-      return MyException(message: e.message ?? 'Erro ao buscar todos os clientes')
+      return MyException(
+              message: e.message ?? 'Erro ao buscar todos os clientes')
           .toFailure();
     } on IMyException catch (e) {
       return MyException(message: e.message).toFailure();

@@ -1,25 +1,26 @@
 // Para atualizar todos os clientes de uma empresa
+import 'package:sdi_pedidos/core_module/vos/int_vo.dart';
 import 'package:sdi_pedidos/core_module/vos/text_vo.dart';
 
 class SyncAllClientsParams {
-  TextVO _codEmpresa;
+  IntVO _codEmpresa;
 
-  TextVO get codEmpresa => _codEmpresa;
-  void setCodEmpresa(String value) => _codEmpresa = TextVO(value);
+  IntVO get codEmpresa => _codEmpresa;
+  void setCodEmpresa(int value) => _codEmpresa = IntVO(value);
 
   SyncAllClientsParams({
-    required String codEmpresa,
-  }) : _codEmpresa = TextVO(codEmpresa);
+    required int codEmpresa,
+  }) : _codEmpresa = IntVO(codEmpresa);
 }
 
 // Para atualizar um único cliente
 class SyncSingleClientParams {
-  TextVO _codCliente;
+  IntVO _codCliente;
 
-  TextVO get codCliente => _codCliente;
-  void setCodCliente(String value) => _codCliente = TextVO(value);
+  IntVO get codCliente => _codCliente;
+  void setCodCliente(int value) => _codCliente = IntVO(value);
 
   SyncSingleClientParams({
-    required String codCliente,
-  }) : _codCliente = TextVO(codCliente);
+    required int codCliente,
+  }) : _codCliente = IntVO(codCliente);
 }

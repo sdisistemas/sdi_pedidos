@@ -1,7 +1,3 @@
-// import 'package:sdi_pedidos/modules/bookmark/bookmark_module.dart';
-// import 'package:sdi_pedidos/modules/company/company_module.dart';
-import 'package:sdi_pedidos/modules/home/binds/bookmark_binds.dart';
-import 'package:sdi_pedidos/modules/home/binds/company_binds.dart';
 import 'package:sdi_pedidos/modules/home/binds/home_binds.dart';
 import 'package:sdi_pedidos/modules/home/screens/blocs/home_bloc.dart';
 import 'package:sdi_pedidos/modules/home/screens/home_screen.dart';
@@ -13,8 +9,6 @@ class HomeModule extends Module {
   @override
   List<Bind> get binds => [
         ...HomeBinds.binds,
-        ...BookMarkBinds.binds,
-        ...CompanyBinds.binds,
       ];
 
   @override
@@ -37,9 +31,5 @@ class HomeModule extends Module {
             ),
           ],
         ),
-
-        //Modules
-        // ModuleRoute('/company', module: CompanyModule()),
-        // ModuleRoute('/bookmark', module: BookmarkModule()),
       ];
 }

@@ -1,8 +1,10 @@
 import 'package:sdi_pedidos/core_module/services/api.dart';
+import 'package:sdi_pedidos/core_module/services/database/models/client.dart';
 import 'package:sdi_pedidos/core_module/services/realm/realm_config.dart';
 import 'package:sdi_pedidos/core_module/services/storage.dart';
 import 'package:sdi_pedidos/core_module/services/themeMode/theme_mode_service.dart';
 import 'package:sdi_pedidos/interfaces/services/api_interface.dart';
+import 'package:sdi_pedidos/interfaces/services/database/client_interface.dart';
 import 'package:sdi_pedidos/interfaces/services/storage_interface.dart';
 import 'package:sdi_pedidos/modules/auth/auth_module.dart';
 import 'package:sdi_pedidos/modules/auth/services/auth_service.dart';
@@ -10,6 +12,8 @@ import 'package:sdi_pedidos/modules/auth/services/auth_service_interface.dart';
 import 'package:sdi_pedidos/modules/configuration/configuration_module.dart';
 import 'package:sdi_pedidos/modules/home/home_module.dart';
 import 'package:sdi_pedidos/modules/splash/splash_module.dart';
+import 'package:sdi_pedidos/modules/sync_data/binds/sync_data_binds.dart';
+import 'package:sdi_pedidos/modules/sync_data/sync_data_module.dart';
 import 'package:sdi_pedidos/shared/stores/app_store.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:realm/realm.dart';
@@ -20,13 +24,16 @@ class AppModule extends Module {
         //LOCAL SECURITY STORAGE
         Bind.singleton<IStorage>((i) => Storage()),
 
+        //LOCAL DATABASE SQLITE
+        Bind.singleton<IClient>((i) => clientDao()),
+
         //API
         Bind.singleton<IApiService>((i) => Api(i())),
 
         //Service
         Bind.singleton<IAuthService>((i) => AuthService(i())),
 
-        //DATABASE
+        //DATABASEa
         Bind.instance<Realm>(Realm(config)),
 
         //STORES
@@ -42,5 +49,6 @@ class AppModule extends Module {
         ModuleRoute('/auth', module: AuthModule()),
         ModuleRoute('/home', module: HomeModule()),
         ModuleRoute('/configuration', module: ConfigurationModule()),
+        ModuleRoute('/sync_data', module: SyncDataModule()),
       ];
 }

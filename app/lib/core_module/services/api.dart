@@ -49,7 +49,7 @@ class Api implements IApiService {
 
     return await api.get(
       endpoint,
-      queryParameters: queryParameters, // Adicionado aqui
+      queryParameters: queryParameters,
       options: Options(headers: {"Authorization": "Bearer $token"}),
     );
   }

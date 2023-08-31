@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
 
-    Modular.to.navigate('/home/home');
+    // Modular.to.navigate('/home/home');
   }
 
   @override
