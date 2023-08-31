@@ -5,6 +5,7 @@ import 'package:sdi_pedidos/modules/sync_data/screens/blocs/sync_data_bloc.dart'
 import 'package:sdi_pedidos/modules/sync_data/screens/blocs/sync_data_events.dart';
 import 'package:sdi_pedidos/modules/sync_data/screens/blocs/sync_data_states.dart';
 import 'package:sdi_pedidos/shared/components/my_snackbar.dart';
+import 'package:sdi_pedidos/widgets/loadingModal.dart';
 
 class SyncDataScreen extends StatefulWidget {
   final SyncDataBloc syncDataBloc;
@@ -54,36 +55,37 @@ class _SyncDataScreenState extends State<SyncDataScreen> {
       body: BlocBuilder<SyncDataBloc, SyncDataStates>(
         bloc: widget.syncDataBloc,
         builder: (context, state) {
-          if (state is LoadingSyncDataState) {
-            return const Center(
-              child: CircularProgressIndicator(), // Animação de loading
-            );
-          }
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text("Atualização de dados do APP"),
-                const SizedBox(height: 10),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.system_update_alt_outlined),
-                  label: const Text("Atualizar dados"),
-                  onPressed: () {
-                    widget.syncDataBloc.add(SyncDataEvent());
-                    print("Atualizar dados");
-                  },
+          return Stack(
+            children: [
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text("Atualização de dados do APP"),
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.system_update_alt_outlined),
+                      label: const Text("Atualizar dados"),
+                      onPressed: () {
+                        widget.syncDataBloc.add(SyncDataEvent());
+                        print("Atualizar dados");
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.system_update_alt_outlined),
+                      label: const Text("Atualizar Fotos"),
+                      onPressed: () {
+                        // Implemente a lógica de atualização de fotos aqui
+                        print("Atualizar fotos");
+                      },
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 10),
-                OutlinedButton.icon(
-                  icon: const Icon(Icons.system_update_alt_outlined),
-                  label: const Text("Atualizar Fotos"),
-                  onPressed: () {
-                    // Implemente a lógica de atualização de fotos aqui
-                    print("Atualizar fotos");
-                  },
-                ),
-              ],
-            ),
+              ),
+              if (state is LoadingSyncDataState)
+                LoadingModal(), // Mostre o widget de carregamento quando o estado for SyncDataLoadingState
+            ],
           );
         },
       ),

@@ -22,6 +22,7 @@ class Api implements IApiService {
     final port = await storage.read('port');
 
     String baseUrl;
+    print('selectedIP: $selectedIP');
     if (selectedIP == "internal") {
       baseUrl = 'https://${internalIP ?? ''}:${port ?? '3000'}';
     } else {
