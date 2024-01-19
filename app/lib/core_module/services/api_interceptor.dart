@@ -16,7 +16,7 @@ class ApiInterceptor extends Interceptor {
     RequestOptions options,
     RequestInterceptorHandler handler,
   ) async {
-    final accessToken = await storage.read('access_token');
+    final accessToken = await storage.read('accessToken');
     options.headers['Authorization'] = 'Bearer $accessToken';
 
     handler.next(options);
@@ -25,8 +25,8 @@ class ApiInterceptor extends Interceptor {
   @override
   void onError(DioException error, ErrorInterceptorHandler handler) async {
     if (error.response?.statusCode == 401) {
-      final String? access_token = await storage.read('access_token');
-      final String? refresh_token = await storage.read('refresh_token');
+      final String? access_token = await storage.read('accessToken');
+      final String? refresh_token = await storage.read('refreshToken');
 
       if (access_token != null && !isTokenExpired(access_token)) {
         final newOptions = Options(
@@ -81,26 +81,26 @@ class ApiInterceptor extends Interceptor {
   }
 
   void logout() async {
-    await storage.remove("access_token");
-    await storage.remove("refresh_token");
+    await storage.remove("accessToken");
+    await storage.remove("refreshToken");
     await storage.remove("user");
 
     Modular.to.pushReplacementNamed('/');
   }
 
   Future<void> refreshToken() async {
-    final refreshToken = await this.storage.read('refresh_token');
+    final refreshToken = await this.storage.read('refreshToken');
 
     if (refreshToken != null && !isTokenExpired(refreshToken)) {
       final response = await this
           .api
-          .post('/auth/refresh', data: {'refresh_token': refreshToken});
+          .post('/auth/refresh', data: {'refreshToken': refreshToken});
       print("teve que entrar no refresh");
       print("Refresh token isExpired: ${isTokenExpired(refreshToken)}");
       print("response newAcessToken: $response");
       if (response.statusCode == 200) {
-        await storage.save("access_token", response.data["access_token"]);
-        await storage.save("refresh_token", response.data["refresh_token"]);
+        await storage.save("accessToken", response.data["accessToken"]);
+        await storage.save("refreshToken", response.data["refreshToken"]);
         await storage.save("user", json.encode(response.data["user"]));
       }
     }

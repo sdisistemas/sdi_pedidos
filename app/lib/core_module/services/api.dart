@@ -46,8 +46,7 @@ class Api implements IApiService {
   @override
   Future<Response> get(String endpoint,
       {Map<String, dynamic>? queryParameters}) async {
-    final token = await storage.read("access_token");
-
+    final token = await storage.read("accessToken");
     return await api.get(
       endpoint,
       queryParameters: queryParameters,
@@ -57,7 +56,7 @@ class Api implements IApiService {
 
   @override
   Future<Response> post(String endpoint, dynamic data) async {
-    final token = await storage.read("access_token");
+    final token = await storage.read("accessToken");
     print("data: ${api.options.baseUrl}");
 
     return await api.post(endpoint,
@@ -67,7 +66,7 @@ class Api implements IApiService {
 
   @override
   Future put(String endpoint, dynamic data) async {
-    final token = await storage.read("access_token");
+    final token = await storage.read("accessToken");
 
     return await api.put(endpoint,
         data: data,
@@ -76,7 +75,7 @@ class Api implements IApiService {
 
   @override
   Future patch(String endpoint, dynamic data) async {
-    final token = await storage.read("access_token");
+    final token = await storage.read("accessToken");
 
     return await api.patch(endpoint,
         data: data,
@@ -85,7 +84,7 @@ class Api implements IApiService {
 
   @override
   Future<Response> delete(String endpoint, dynamic data) async {
-    final token = await storage.read("access_token");
+    final token = await storage.read("accessToken");
 
     return await api.delete(endpoint,
         data: data,

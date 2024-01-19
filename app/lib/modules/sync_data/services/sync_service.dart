@@ -15,12 +15,14 @@ class SyncService implements ISyncService {
 
       // Chame o método do repositório para obter dados da API
       final clientsFromApi = await api.get(fullEndpoint);
+      print('clientsFromApi $clientsFromApi');
 
       // print("clientsFromApi: ${clientsFromApi}");
 
       return clientsFromApi;
     } catch (e) {
       // Tratamento de erros
+
       print("Erro ao sincronizar todos os clientes: $e");
     }
   }

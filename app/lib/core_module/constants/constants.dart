@@ -10,7 +10,7 @@ const registerAdminEndpoint = "/auth/register";
 const profileEndpoint = "/auth/profile";
 const refreshTokenEndpoint = "/auth/refresh";
 
-const getAllclientsEndpoint = "/allClients";
+const getAllclientsEndpoint = "/client/allClients";
 
 const bookmarkEndpoint = "$startEndPoint/bookmark";
 const companyEndpoint = "$startEndPoint/company";
